@@ -1,0 +1,39 @@
+#include <ctype.h>
+#include <stdio.h>
+#include <string.h>
+
+void encrypt(char* plaintext, char* key) {
+    int i, j = 0, keyLen = strlen(key), textLen = strlen(plaintext);
+    char newKey[textLen], encryptedMsg[textLen];
+
+    // Generate new key in a cyclic manner equal to the length of original text
+    for (i = 0; i < textLen; ++i, ++j) {
+        if (j == keyLen) j = 0;
+        newKey[i] = key[j];
+    }
+    newKey[i] = '\0';
+
+    // Encryption
+    for (i = 0; i < textLen; ++i)
+        encryptedMsg[i] = ((toupper(plaintext[i]) + toupper(newKey[i])) % 26) + 'A';
+    encryptedMsg[i] = '\0';
+
+    printf("Encrypted Message: %s\n", encryptedMsg);
+}
+
+int main() {
+    char plaintext[100], key[30];
+    
+    printf("Enter plaintext: ");
+    fgets(plaintext, sizeof(plaintext), stdin);
+    plaintext[strcspn(plaintext, "\n")] = 0;  // Remove trailing newline
+
+    printf("Enter key: ");
+    fgets(key, sizeof(key), stdin);
+    key[strcspn(key, "\n")] = 0;  // Remove trailing newline
+
+    encrypt(plaintext, key);
+
+    return 0;
+}
+
