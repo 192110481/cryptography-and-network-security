@@ -1,0 +1,40 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define SIZE 64
+
+// Function to generate keys
+void generateKeys(char* key, char keys[16][SIZE]) {
+    // Key generation logic goes here
+    // ...
+}
+
+// Function to decrypt the ciphertext
+void decrypt(char* ciphertext, char keys[16][SIZE], char* plaintext) {
+    // Decryption logic goes here
+    // ...
+}
+
+int main() {
+    char key[SIZE + 1];
+    char ciphertext[SIZE + 1];
+    char keys[16][SIZE + 1];
+
+    printf("Enter key: ");
+    fgets(key, sizeof(key), stdin);
+    key[strcspn(key, "\n")] = 0;  // Remove trailing newline
+
+    printf("Enter ciphertext: ");
+    fgets(ciphertext, sizeof(ciphertext), stdin);
+    ciphertext[strcspn(ciphertext, "\n")] = 0;  // Remove trailing newline
+
+    generateKeys(key, keys);
+    
+    char plaintext[SIZE + 1];
+    decrypt(ciphertext, keys, plaintext);
+
+    printf("Decrypted Message: %s\n", plaintext);
+
+    return 0;
+}
