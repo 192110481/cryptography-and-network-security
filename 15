@@ -1,0 +1,63 @@
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+#define SIZE 26
+
+// Function to calculate frequency of letters in the ciphertext
+void calculateFrequency(char* ciphertext, int* freq) {
+    for (int i = 0; ciphertext[i] != '\0'; i++)
+        freq[toupper(ciphertext[i]) - 'A']++;
+}
+
+// Function to find the character with maximum frequency
+char findMax(int* freq) {
+    int max = 0;
+    char ch;
+    for (int i = 0; i < SIZE; i++) {
+        if (freq[i] > max) {
+            max = freq[i];
+            ch = i + 'A';
+        }
+    }
+    return ch;
+}
+
+// Function to decrypt the ciphertext
+void decrypt(char* ciphertext, int key, char* plaintext) {
+    for (int i = 0; ciphertext[i] != '\0'; i++) {
+        if (ciphertext[i] != ' ') {
+            plaintext[i] = ((toupper(ciphertext[i]) - 'A' - key + SIZE) % SIZE) + 'A';
+        } else {
+            plaintext[i] = ' ';
+        }
+    }
+    plaintext[strlen(ciphertext)] = '\0';
+}
+
+int main() {
+    char ciphertext[100];
+    int num;
+
+    printf("Enter ciphertext: ");
+    fgets(ciphertext, sizeof(ciphertext), stdin);
+    ciphertext[strcspn(ciphertext, "\n")] = 0;  // Remove trailing newline
+
+    printf("Enter number of possible plaintexts: ");
+    scanf("%d", &num);
+
+    int freq[SIZE] = {0};
+    calculateFrequency(ciphertext, freq);
+
+    char maxChar = findMax(freq);
+    int key = (maxChar - 'E' + SIZE) % SIZE;
+
+    printf("\nTop %d possible plaintexts:\n", num);
+    for (int i = 0; i < num; i++) {
+        char plaintext[strlen(ciphertext) + 1];
+        decrypt(ciphertext, (key + i) % SIZE, plaintext);
+        printf("%d: %s\n", i + 1, plaintext);
+    }
+
+    return 0;
+}
