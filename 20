@@ -1,0 +1,46 @@
+#include <stdio.h>
+#include <string.h>
+
+#define BLOCK_SIZE 8  // Change as needed
+
+// Function to encrypt a block
+void encryptBlock(char* plaintextBlock, char* key, char* ciphertextBlock) {
+    // Encryption logic goes here
+    // ...
+}
+
+// Function to decrypt a block
+void decryptBlock(char* ciphertextBlock, char* key, char* plaintextBlock) {
+    // Decryption logic goes here
+    // ...
+}
+
+// Function to encrypt using ECB mode
+void encryptECB(char* plaintext, char* key, char* ciphertext) {
+    int numBlocks = strlen(plaintext) / BLOCK_SIZE;
+    for (int i = 0; i < numBlocks; i++)
+        encryptBlock(&plaintext[i * BLOCK_SIZE], key, &ciphertext[i * BLOCK_SIZE]);
+}
+
+// Function to decrypt using ECB mode
+void decryptECB(char* ciphertext, char* key, char* plaintext) {
+    int numBlocks = strlen(ciphertext) / BLOCK_SIZE;
+    for (int i = 0; i < numBlocks; i++)
+        decryptBlock(&ciphertext[i * BLOCK_SIZE], key, &plaintext[i * BLOCK_SIZE]);
+}
+
+int main() {
+    char key[BLOCK_SIZE + 1];  // Add your key here
+    char plaintext[BLOCK_SIZE * 10 + 1];  // Add your plaintext here
+
+    char ciphertext[sizeof(plaintext)];
+    encryptECB(plaintext, key, ciphertext);
+
+    char decrypted[sizeof(plaintext)];
+    decryptECB(ciphertext, key, decrypted);
+
+    printf("Ciphertext: %s\n", ciphertext);
+    printf("Decrypted: %s\n", decrypted);
+
+    return 0;
+}
